@@ -316,10 +316,6 @@
 ;; to use the same template.
 (define_code_iterator any_extend [sign_extend zero_extend])
 
-;; This code iterator allows the two right shift instructions to be
-;; generated from the same template.
-(define_code_iterator any_shiftrt [ashiftrt lshiftrt])
-
 ;; This code iterator allows the three shift instructions to be generated
 ;; from the same template.
 (define_code_iterator any_shift [ashift ashiftrt lshiftrt])
