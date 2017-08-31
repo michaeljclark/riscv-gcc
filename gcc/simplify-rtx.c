@@ -1501,8 +1501,14 @@ simplify_unary_operation_1 (enum rtx_code code, machine_mode mode, rtx op)
 	}
 
       /* (sign_extend:M (lshiftrt:N <X> (const_int I))) is better as
-         (zero_extend:M (lshiftrt:N <X> (const_int I))) if I is not 0.  */
+         (zero_extend:M (lshiftrt:N <X> (const_int I))) if I is not 0
+         and the platform zero extends narrower operations */
       if (GET_CODE (op) == LSHIFTRT
+#if defined(WORD_REGISTER_OPERATIONS) && defined(LOAD_EXTEND_OP)
+      /* we skip on platforms that sign extend narrower operations */
+	  && !(WORD_REGISTER_OPERATIONS &&
+	       LOAD_EXTEND_OP(GET_MODE (XEXP (op, 0))) == SIGN_EXTEND)
+#endif
 	  && CONST_INT_P (XEXP (op, 1))
 	  && XEXP (op, 1) != const0_rtx)
 	return simplify_gen_unary (ZERO_EXTEND, mode, op, GET_MODE (op));
