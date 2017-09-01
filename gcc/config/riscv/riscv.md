@@ -919,39 +919,39 @@
 ;; For RV64, we don't expose the SImode operations to the rtl expanders,
 ;; but SImode versions exist for combine.
 
-(define_insn "<optab><mode>3"
-  [(set (match_operand:X                0 "register_operand" "=r,r")
-	(any_bitwise:X (match_operand:X 1 "register_operand" "%r,r")
-		       (match_operand:X 2 "arith_operand"    " r,I")))]
-  ""
-  "<insn>\t%0,%1,%2"
-  [(set_attr "type" "logical")
-   (set_attr "mode" "<MODE>")])
-
-(define_insn "*<optab>si3_internal"
-  [(set (match_operand:SI                 0 "register_operand" "=r,r")
+(define_insn "<optab>si3"
+  [(set (match_operand:SI                0 "register_operand" "=r,r")
 	(any_bitwise:SI (match_operand:SI 1 "register_operand" "%r,r")
 			(match_operand:SI 2 "arith_operand"    " r,I")))]
-  "TARGET_64BIT"
+  ""
   "<insn>\t%0,%1,%2"
   [(set_attr "type" "logical")
    (set_attr "mode" "SI")])
 
-(define_insn "one_cmpl<mode>2"
-  [(set (match_operand:X        0 "register_operand" "=r")
-	(not:X (match_operand:X 1 "register_operand" " r")))]
+(define_insn "<optab>di3"
+  [(set (match_operand:DI                0 "register_operand" "=r,r")
+	(any_bitwise:DI (match_operand:DI 1 "register_operand" "%r,r")
+		       (match_operand:DI 2 "arith_operand"    " r,I")))]
+  "TARGET_64BIT"
+  "<insn>\t%0,%1,%2"
+  [(set_attr "type" "logical")
+   (set_attr "mode" "DI")])
+
+(define_insn "one_cmplsi2"
+  [(set (match_operand:SI        0 "register_operand" "=r")
+	(not:SI (match_operand:SI 1 "register_operand" " r")))]
   ""
   "not\t%0,%1"
   [(set_attr "type" "logical")
-   (set_attr "mode" "<MODE>")])
+   (set_attr "mode" "SI")])
 
-(define_insn "*one_cmplsi2_internal"
-  [(set (match_operand:SI         0 "register_operand" "=r")
-	(not:SI (match_operand:SI 1 "register_operand" " r")))]
+(define_insn "one_cmpldi2"
+  [(set (match_operand:DI        0 "register_operand" "=r")
+	(not:DI (match_operand:DI 1 "register_operand" " r")))]
   "TARGET_64BIT"
   "not\t%0,%1"
   [(set_attr "type" "logical")
-   (set_attr "mode" "SI")])
+   (set_attr "mode" "DI")])
 
 ;;
 ;;  ....................
