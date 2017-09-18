@@ -2695,6 +2695,26 @@ riscv_legitimize_call_address (rtx addr)
   return addr;
 }
 
+/* Implement TARGET_PROMOTE_FUNCTION_MODE */
+
+static machine_mode
+riscv_promote_function_mode (const_tree type ATTRIBUTE_UNUSED,
+                            machine_mode mode,
+                            int *punsignedp ATTRIBUTE_UNUSED,
+                            const_tree fntype ATTRIBUTE_UNUSED,
+                            int for_return ATTRIBUTE_UNUSED)
+{
+  if (GET_MODE_CLASS (mode) == MODE_INT
+      && GET_MODE_SIZE (mode) < UNITS_PER_WORD)
+  {
+    if ((mode) == SImode) {
+        *punsignedp = 0;
+    }
+    mode = word_mode;
+  }
+  return mode;
+}
+
 /* Print symbolic operand OP, which is part of a HIGH or LO_SUM
    in context CONTEXT.  HI_RELOC indicates a high-part reloc.  */
 
@@ -4060,7 +4080,7 @@ riscv_cannot_copy_insn_p (rtx_insn *insn)
 #define TARGET_EXPAND_BUILTIN_VA_START riscv_va_start
 
 #undef  TARGET_PROMOTE_FUNCTION_MODE
-#define TARGET_PROMOTE_FUNCTION_MODE default_promote_function_mode_always_promote
+#define TARGET_PROMOTE_FUNCTION_MODE riscv_promote_function_mode
 
 #undef TARGET_RETURN_IN_MEMORY
 #define TARGET_RETURN_IN_MEMORY riscv_return_in_memory

@@ -1491,7 +1491,7 @@
   [(set_attr "type" "shift")
    (set_attr "mode" "DI")])
 
-(define_insn "*<optab>si3_extend"
+(define_insn "<optab>si3_extend"
   [(set (match_operand:DI                   0 "register_operand" "= r")
 	(sign_extend:DI
 	    (any_shift:SI (match_operand:SI 1 "register_operand" "  r")
@@ -1499,12 +1499,14 @@
   "TARGET_64BIT"
 {
   if (GET_CODE (operands[2]) == CONST_INT)
-    operands[2] = GEN_INT (INTVAL (operands[2]) & 0x1f);
+    operands[2] = GEN_INT (INTVAL (operands[2])
+			   & (GET_MODE_BITSIZE (SImode) - 1));
 
   return "<insn>w\t%0,%1,%2";
 }
   [(set_attr "type" "shift")
    (set_attr "mode" "SI")])
+
 
 ;;
 ;;  ....................

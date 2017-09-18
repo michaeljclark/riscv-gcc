@@ -210,14 +210,7 @@ along with GCC; see the file COPYING3.  If not see
    type, but kept valid in the wider mode.  The signedness of the
    extension may differ from that of the type.  */
 
-#define PROMOTE_MODE(MODE, UNSIGNEDP, TYPE)	\
-  if (GET_MODE_CLASS (MODE) == MODE_INT		\
-      && GET_MODE_SIZE (MODE) < UNITS_PER_WORD)	\
-    {						\
-      if ((MODE) == SImode)			\
-	(UNSIGNEDP) = 0;			\
-      (MODE) = word_mode;			\
-    }
+#undef PROMOTE_MODE
 
 /* Pmode is always the same as ptr_mode, but not always the same as word_mode.
    Extensions of pointers to word_mode must be signed.  */
